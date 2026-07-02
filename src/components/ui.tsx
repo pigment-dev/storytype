@@ -9,20 +9,11 @@ import type {
 import { ColorPicker } from './ColorPicker'
 import { blurActiveEditable } from '../utils/dom'
 
-export function Section({
-  title,
-  children,
-  action
-}: {
-  title: string
-  children: ReactNode
-  action?: ReactNode
-}) {
+export function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="section">
       <header className="section-h">
         <span>{title}</span>
-        {action}
       </header>
       <div className="section-body">{children}</div>
     </section>

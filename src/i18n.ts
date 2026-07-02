@@ -93,7 +93,9 @@ const en: Dict = {
   'presets.namePlaceholder': 'Preset name',
   'presets.save': 'Save as preset',
   'presets.empty': 'No saved presets yet.',
-  'presets.delete': 'Delete preset'
+  'presets.delete': 'Delete preset',
+
+  'toggle.enable': 'Enable'
 }
 
 const fa: Dict = {
@@ -186,7 +188,9 @@ const fa: Dict = {
   'presets.namePlaceholder': 'نام پیش‌تنظیم',
   'presets.save': 'ذخیره به‌عنوان پیش‌تنظیم',
   'presets.empty': 'هنوز پیش‌تنظیمی ذخیره نشده.',
-  'presets.delete': 'حذف پیش‌تنظیم'
+  'presets.delete': 'حذف پیش‌تنظیم',
+
+  'toggle.enable': 'فعال'
 }
 
 const DICTS: Record<Lang, Dict> = { en, fa }
