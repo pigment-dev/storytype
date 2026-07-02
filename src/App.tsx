@@ -74,7 +74,6 @@ export default function App() {
             </span>
             <div className="brand-text">
               <h1>StoryType</h1>
-              <p>{t('app.tagline')}</p>
             </div>
           </div>
           <div className="topbar-actions">
