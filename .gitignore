@@ -1,0 +1,11 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+.vite
+node_modules/.tmp
+
+# Local env / secrets (Google Fonts API key for the catalog refresh script)
+.env
+.env.local

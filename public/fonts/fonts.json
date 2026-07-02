@@ -1,0 +1,226 @@
+{
+  "version": 1,
+  "fonts": [
+    {
+      "id": "vazirmatn",
+      "family": "Vazirmatn",
+      "displayName": { "en": "Vazirmatn", "fa": "وزیرمتن" },
+      "category": "sans-serif",
+      "languages": ["fa", "ar", "en"],
+      "subsets": ["arabic", "latin"],
+      "direction": "both",
+      "source": "bundled",
+      "license": { "id": "OFL-1.1", "name": "SIL Open Font License 1.1", "url": "https://github.com/rastikerdar/vazirmatn/blob/master/OFL.txt" },
+      "credit": "Saber Rastikerdar",
+      "preview": "سلام دنیا Aa",
+      "files": [
+        { "weight": 400, "style": "normal", "format": "woff2", "src": "fonts/vazirmatn/arabic-400.woff2", "subset": "arabic" },
+        { "weight": 700, "style": "normal", "format": "woff2", "src": "fonts/vazirmatn/arabic-700.woff2", "subset": "arabic" },
+        { "weight": 400, "style": "normal", "format": "woff2", "src": "fonts/vazirmatn/latin-400.woff2", "subset": "latin" },
+        { "weight": 700, "style": "normal", "format": "woff2", "src": "fonts/vazirmatn/latin-700.woff2", "subset": "latin" }
+      ]
+    },
+    {
+      "id": "cairo",
+      "family": "Cairo",
+      "displayName": { "en": "Cairo", "fa": "کایرو" },
+      "category": "sans-serif",
+      "languages": ["fa", "ar", "en"],
+      "subsets": ["arabic", "latin"],
+      "direction": "both",
+      "source": "bundled",
+      "license": { "id": "OFL-1.1", "name": "SIL Open Font License 1.1", "url": "https://fonts.google.com/specimen/Cairo/about" },
+      "credit": "Mohamed Gaber, Google",
+      "preview": "سلام دنیا Aa",
+      "files": [
+        { "weight": 400, "style": "normal", "format": "woff2", "src": "fonts/cairo/arabic-400.woff2", "subset": "arabic" },
+        { "weight": 700, "style": "normal", "format": "woff2", "src": "fonts/cairo/arabic-700.woff2", "subset": "arabic" },
+        { "weight": 400, "style": "normal", "format": "woff2", "src": "fonts/cairo/latin-400.woff2", "subset": "latin" }
+      ]
+    },
+    {
+      "id": "markazi-text",
+      "family": "Markazi Text",
+      "displayName": { "en": "Markazi Text", "fa": "مرکزی" },
+      "category": "serif",
+      "languages": ["fa", "ar", "en"],
+      "subsets": ["arabic", "latin"],
+      "direction": "both",
+      "source": "bundled",
+      "license": { "id": "OFL-1.1", "name": "SIL Open Font License 1.1", "url": "https://fonts.google.com/specimen/Markazi+Text/about" },
+      "credit": "Borna Izadpanah, Florian Runge, Fiona Ross",
+      "preview": "سلام دنیا Aa",
+      "files": [
+        { "weight": 400, "style": "normal", "format": "woff2", "src": "fonts/markazi-text/arabic-400.woff2", "subset": "arabic" },
+        { "weight": 400, "style": "normal", "format": "woff2", "src": "fonts/markazi-text/latin-400.woff2", "subset": "latin" }
+      ]
+    },
+    {
+      "id": "amiri",
+      "family": "Amiri",
+      "displayName": { "en": "Amiri", "fa": "امیری" },
+      "category": "serif",
+      "languages": ["fa", "ar"],
+      "subsets": ["arabic"],
+      "direction": "rtl",
+      "source": "bundled",
+      "license": { "id": "OFL-1.1", "name": "SIL Open Font License 1.1", "url": "https://github.com/aliftype/amiri/blob/master/OFL.txt" },
+      "credit": "Khaled Hosny (aliftype)",
+      "preview": "بسم الله الرحمن",
+      "files": [
+        { "weight": 400, "style": "normal", "format": "woff2", "src": "fonts/amiri/arabic-400.woff2", "subset": "arabic" },
+        { "weight": 700, "style": "normal", "format": "woff2", "src": "fonts/amiri/arabic-700.woff2", "subset": "arabic" }
+      ]
+    },
+    {
+      "id": "lalezar",
+      "family": "Lalezar",
+      "displayName": { "en": "Lalezar", "fa": "لاله‌زار" },
+      "category": "display",
+      "languages": ["fa", "ar", "en"],
+      "subsets": ["arabic", "latin"],
+      "direction": "both",
+      "source": "bundled",
+      "license": { "id": "OFL-1.1", "name": "SIL Open Font License 1.1", "url": "https://github.com/BornaIz/Lalezar/blob/master/OFL.txt" },
+      "credit": "Borna Izadpanah, Florian Runge",
+      "preview": "لاله‌زار Aa",
+      "files": [
+        { "weight": 400, "style": "normal", "format": "woff2", "src": "fonts/lalezar/arabic-400.woff2", "subset": "arabic" },
+        { "weight": 400, "style": "normal", "format": "woff2", "src": "fonts/lalezar/latin-400.woff2", "subset": "latin" }
+      ]
+    },
+    {
+      "id": "reem-kufi",
+      "family": "Reem Kufi",
+      "displayName": { "en": "Reem Kufi", "fa": "ریم کوفی" },
+      "category": "display",
+      "languages": ["fa", "ar"],
+      "subsets": ["arabic"],
+      "direction": "rtl",
+      "source": "bundled",
+      "license": { "id": "OFL-1.1", "name": "SIL Open Font License 1.1", "url": "https://github.com/aliftype/reem-kufi/blob/master/OFL.txt" },
+      "credit": "Khaled Hosny (aliftype)",
+      "preview": "ریم کوفی",
+      "files": [
+        { "weight": 400, "style": "normal", "format": "woff2", "src": "fonts/reem-kufi/arabic-400.woff2", "subset": "arabic" },
+        { "weight": 700, "style": "normal", "format": "woff2", "src": "fonts/reem-kufi/arabic-700.woff2", "subset": "arabic" }
+      ]
+    },
+    {
+      "id": "el-messiri",
+      "family": "El Messiri",
+      "displayName": { "en": "El Messiri", "fa": "المسیری" },
+      "category": "sans-serif",
+      "languages": ["fa", "ar"],
+      "subsets": ["arabic"],
+      "direction": "rtl",
+      "source": "bundled",
+      "license": { "id": "OFL-1.1", "name": "SIL Open Font License 1.1", "url": "https://fonts.google.com/specimen/El+Messiri/about" },
+      "credit": "Mohamed Gaber",
+      "preview": "المسیری سلام",
+      "files": [
+        { "weight": 400, "style": "normal", "format": "woff2", "src": "fonts/el-messiri/arabic-400.woff2", "subset": "arabic" }
+      ]
+    },
+    {
+      "id": "rakkas",
+      "family": "Rakkas",
+      "displayName": { "en": "Rakkas", "fa": "رقاص" },
+      "category": "display",
+      "languages": ["fa", "ar", "en"],
+      "subsets": ["arabic", "latin"],
+      "direction": "both",
+      "source": "bundled",
+      "license": { "id": "OFL-1.1", "name": "SIL Open Font License 1.1", "url": "https://fonts.google.com/specimen/Rakkas/about" },
+      "credit": "Zeynep Akay",
+      "preview": "رقاص Aa",
+      "files": [
+        { "weight": 400, "style": "normal", "format": "woff2", "src": "fonts/rakkas/arabic-400.woff2", "subset": "arabic" },
+        { "weight": 400, "style": "normal", "format": "woff2", "src": "fonts/rakkas/latin-400.woff2", "subset": "latin" }
+      ]
+    },
+    {
+      "id": "inter",
+      "family": "Inter",
+      "displayName": { "en": "Inter" },
+      "category": "sans-serif",
+      "languages": ["en"],
+      "subsets": ["latin"],
+      "direction": "ltr",
+      "source": "bundled",
+      "license": { "id": "OFL-1.1", "name": "SIL Open Font License 1.1", "url": "https://github.com/rsms/inter/blob/master/LICENSE.txt" },
+      "credit": "Rasmus Andersson",
+      "preview": "Inter Aa 123",
+      "files": [
+        { "weight": 400, "style": "normal", "format": "woff2", "src": "fonts/inter/latin-400.woff2", "subset": "latin" },
+        { "weight": 700, "style": "normal", "format": "woff2", "src": "fonts/inter/latin-700.woff2", "subset": "latin" }
+      ]
+    },
+    {
+      "id": "poppins",
+      "family": "Poppins",
+      "displayName": { "en": "Poppins" },
+      "category": "sans-serif",
+      "languages": ["en"],
+      "subsets": ["latin"],
+      "direction": "ltr",
+      "source": "bundled",
+      "license": { "id": "OFL-1.1", "name": "SIL Open Font License 1.1", "url": "https://fonts.google.com/specimen/Poppins/about" },
+      "credit": "Indian Type Foundry, Jonny Pinhorn",
+      "preview": "Poppins Aa 123",
+      "files": [
+        { "weight": 400, "style": "normal", "format": "woff2", "src": "fonts/poppins/latin-400.woff2", "subset": "latin" },
+        { "weight": 700, "style": "normal", "format": "woff2", "src": "fonts/poppins/latin-700.woff2", "subset": "latin" }
+      ]
+    },
+    {
+      "id": "playfair-display",
+      "family": "Playfair Display",
+      "displayName": { "en": "Playfair Display" },
+      "category": "serif",
+      "languages": ["en"],
+      "subsets": ["latin"],
+      "direction": "ltr",
+      "source": "bundled",
+      "license": { "id": "OFL-1.1", "name": "SIL Open Font License 1.1", "url": "https://fonts.google.com/specimen/Playfair+Display/about" },
+      "credit": "Claus Eggers Sørensen",
+      "preview": "Playfair Aa",
+      "files": [
+        { "weight": 400, "style": "normal", "format": "woff2", "src": "fonts/playfair-display/latin-400.woff2", "subset": "latin" },
+        { "weight": 700, "style": "normal", "format": "woff2", "src": "fonts/playfair-display/latin-700.woff2", "subset": "latin" }
+      ]
+    },
+    {
+      "id": "bebas-neue",
+      "family": "Bebas Neue",
+      "displayName": { "en": "Bebas Neue" },
+      "category": "display",
+      "languages": ["en"],
+      "subsets": ["latin"],
+      "direction": "ltr",
+      "source": "bundled",
+      "license": { "id": "OFL-1.1", "name": "SIL Open Font License 1.1", "url": "https://fonts.google.com/specimen/Bebas+Neue/about" },
+      "credit": "Ryoichi Tsunekawa, Dharma Type",
+      "preview": "BEBAS NEUE",
+      "files": [
+        { "weight": 400, "style": "normal", "format": "woff2", "src": "fonts/bebas-neue/latin-400.woff2", "subset": "latin" }
+      ]
+    },
+    {
+      "id": "pacifico",
+      "family": "Pacifico",
+      "displayName": { "en": "Pacifico" },
+      "category": "handwriting",
+      "languages": ["en"],
+      "subsets": ["latin"],
+      "direction": "ltr",
+      "source": "bundled",
+      "license": { "id": "OFL-1.1", "name": "SIL Open Font License 1.1", "url": "https://fonts.google.com/specimen/Pacifico/about" },
+      "credit": "Vernon Adams (Jacques Le Bailly)",
+      "preview": "Pacifico",
+      "files": [
+        { "weight": 400, "style": "normal", "format": "woff2", "src": "fonts/pacifico/latin-400.woff2", "subset": "latin" }
+      ]
+    }
+  ]
+}

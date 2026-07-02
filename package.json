@@ -1,0 +1,35 @@
+{
+  "name": "storytype",
+  "private": true,
+  "version": "0.2.0",
+  "type": "module",
+  "description": "Type Persian or English, style it richly, export as a tight transparent PNG for Instagram stories. By Pigment Development.",
+  "homepage": "https://pigment.dev/storytype",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "fetch:gfonts": "node scripts/fetch-google-fonts.mjs"
+  },
+  "dependencies": {
+    "@lexical/react": "^0.46.0",
+    "@lexical/selection": "^0.46.0",
+    "@lexical/utils": "^0.46.0",
+    "lexical": "^0.46.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.0",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "@zumer/snapdom": "^2.12.9",
+    "html-to-image": "^1.11.13",
+    "typescript": "^6.0.3",
+    "vite": "^8.1.3",
+    "vite-plugin-pwa": "^1.3.0"
+  }
+}
