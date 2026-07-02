@@ -111,12 +111,6 @@ input {
   display: grid;
   grid-template-columns: 1fr 400px;
 }
-@media (max-width: 900px) {
-  .workspace {
-    grid-template-columns: 1fr;
-    grid-template-rows: 42vh 1fr;
-  }
-}
 
 /* ---------- Stage ---------- */
 .stage {
@@ -198,12 +192,6 @@ input {
   min-height: 0;
   border-inline-start: 1px solid var(--line);
   background: var(--panel);
-}
-@media (max-width: 900px) {
-  .panel {
-    border-inline-start: none;
-    border-top: 1px solid var(--line);
-  }
 }
 .panel-scroll {
   flex: 1;
@@ -1150,4 +1138,24 @@ input {
   background: var(--accent-2);
   border-color: var(--accent-2);
   color: #fff;
+}
+
+/* ---------- Mobile app-shell ---------- */
+.workspace-mobile {
+  position: relative;
+  display: block;
+}
+.workspace-mobile .stage {
+  position: absolute;
+  inset: 0;
+}
+.mobile-dock-wrap {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, transparent, var(--bg) 40%);
+  padding-top: 24px;
 }

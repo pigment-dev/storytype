@@ -12,6 +12,8 @@ import { useAppStore } from './store/useStore'
 import type { Lang } from './store/useStore'
 import { useT } from './i18n'
 import { ensureBundledFont, loadGoogleCatalog, loadManifest } from './services/fonts'
+import { useIsMobile } from './hooks/useIsMobile'
+import { SettingsDock } from './components/SettingsDock'
 
 const initialConfig: InitialConfigType = {
   namespace: 'StoryType',
@@ -31,6 +33,7 @@ export default function App() {
   const setGoogleFonts = useAppStore((s) => s.setGoogleFonts)
   const setFontsReady = useAppStore((s) => s.setFontsReady)
   const markLoaded = useAppStore((s) => s.markLoaded)
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     document.documentElement.lang = lang
@@ -77,11 +80,13 @@ export default function App() {
             </div>
           </div>
           <div className="topbar-actions">
-            <QualityButton />
+            {!isMobile && <QualityButton />}
             <AboutButton />
-            <button type="button" className="ghost-btn" onClick={resetStyles}>
-              {t('reset')}
-            </button>
+            {!isMobile && (
+              <button type="button" className="ghost-btn" onClick={resetStyles}>
+                {t('reset')}
+              </button>
+            )}
             <Seg<Lang>
               options={[
                 { value: 'fa', label: 'فا' },
@@ -93,22 +98,29 @@ export default function App() {
           </div>
         </header>
 
-        <main className="workspace">
+        <main className={isMobile ? 'workspace workspace-mobile' : 'workspace'}>
           <Stage captureRef={captureRef} />
-          <aside className="panel">
-            <div className="panel-scroll">
-              <Controls />
-              <div className="app-footer">
-                <a href="https://pigment.dev" target="_blank" rel="noreferrer">
-                  Pigment Development
-                </a>
-                <span>
-                  v{__APP_VERSION__} · build {__BUILD_ID__}
-                </span>
-              </div>
+          {isMobile ? (
+            <div className="mobile-dock-wrap">
+              <SettingsDock />
+              <ExportPanel captureRef={captureRef} />
             </div>
-            <ExportPanel captureRef={captureRef} />
-          </aside>
+          ) : (
+            <aside className="panel">
+              <div className="panel-scroll">
+                <Controls />
+                <div className="app-footer">
+                  <a href="https://pigment.dev" target="_blank" rel="noreferrer">
+                    Pigment Development
+                  </a>
+                  <span>
+                    v{__APP_VERSION__} · build {__BUILD_ID__}
+                  </span>
+                </div>
+              </div>
+              <ExportPanel captureRef={captureRef} />
+            </aside>
+          )}
         </main>
       </div>
     </LexicalComposer>
