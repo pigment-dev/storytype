@@ -1,4 +1,10 @@
-import { $getRoot, $getSelection, $isRangeSelection, $setSelection } from 'lexical'
+import {
+  $getRoot,
+  $getSelection,
+  $isRangeSelection,
+  $setSelection,
+  SKIP_SELECTION_FOCUS_TAG
+} from 'lexical'
 import type { LexicalEditor } from 'lexical'
 import { $patchStyleText } from '@lexical/selection'
 import { hexToRgba } from '../utils/color'
@@ -11,21 +17,30 @@ import type { SelectionStyle } from '../store/useStore'
  * "select all" highlight and doesn't have to select anything first.
  */
 export function applyStyle(editor: LexicalEditor, styles: Record<string, string | null>): void {
-  editor.update(() => {
-    const sel = $getSelection()
-    if ($isRangeSelection(sel) && !sel.isCollapsed()) {
-      $patchStyleText(sel, styles)
-      return
-    }
-    const root = $getRoot()
-    const hasText = root.getTextContent().length > 0
-    const saved = $isRangeSelection(sel) ? sel.clone() : null
-    const all = root.select(0, root.getChildrenSize())
-    $patchStyleText(all, styles)
-    // Restore the caret so no visible selection remains (only when there's text;
-    // for an empty editor we keep the selection so the pending style applies to typing).
-    if (saved && hasText) $setSelection(saved)
-  })
+  editor.update(
+    () => {
+      const sel = $getSelection()
+      if ($isRangeSelection(sel) && !sel.isCollapsed()) {
+        $patchStyleText(sel, styles)
+        return
+      }
+      const root = $getRoot()
+      const hasText = root.getTextContent().length > 0
+      const saved = $isRangeSelection(sel) ? sel.clone() : null
+      const all = root.select(0, root.getChildrenSize())
+      $patchStyleText(all, styles)
+      // Restore the caret so no visible selection remains (only when there's text;
+      // for an empty editor we keep the selection so the pending style applies to typing).
+      if (saved && hasText) $setSelection(saved)
+    },
+    // Sliders (font size/weight, stroke, shadow, ...) call applyStyle() while the
+    // contentEditable has been deliberately blurred for the duration of a drag
+    // (see blurActiveEditable() in ../utils/dom.ts). Lexical's DOM-selection
+    // reconciliation would otherwise call rootElement.focus() here because the
+    // active element isn't the editor root, silently reopening the mobile
+    // keyboard mid-drag. This tag suppresses that refocus at the source.
+    { tag: SKIP_SELECTION_FOCUS_TAG }
+  )
 }
 
 export function setFontFamily(editor: LexicalEditor, family: string): void {
