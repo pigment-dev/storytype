@@ -1073,3 +1073,48 @@ input {
   font-variant-numeric: tabular-nums;
   pointer-events: none;
 }
+
+.preset-name-input {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--text);
+  font-size: 13px;
+}
+.preset-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.preset-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  overflow: hidden;
+}
+.preset-chip-name {
+  border: none;
+  background: transparent;
+  color: var(--text);
+  padding: 6px 4px 6px 12px;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.preset-chip-x {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  padding: 6px 10px 6px 4px;
+  font-size: 13px;
+  cursor: pointer;
+  line-height: 1;
+}
+.preset-chip-x:hover {
+  color: var(--text);
+}

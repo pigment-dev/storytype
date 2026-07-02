@@ -87,7 +87,13 @@ const en: Dict = {
   reset: 'Reset',
   'about.title': 'About',
   'about.license': 'License',
-  'about.github': 'GitHub'
+  'about.github': 'GitHub',
+
+  'section.presets': 'Presets',
+  'presets.namePlaceholder': 'Preset name',
+  'presets.save': 'Save as preset',
+  'presets.empty': 'No saved presets yet.',
+  'presets.delete': 'Delete preset'
 }
 
 const fa: Dict = {
@@ -174,7 +180,13 @@ const fa: Dict = {
   reset: 'بازنشانی',
   'about.title': 'درباره',
   'about.license': 'مجوز',
-  'about.github': 'گیت‌هاب'
+  'about.github': 'گیت‌هاب',
+
+  'section.presets': 'پیش‌تنظیم‌ها',
+  'presets.namePlaceholder': 'نام پیش‌تنظیم',
+  'presets.save': 'ذخیره به‌عنوان پیش‌تنظیم',
+  'presets.empty': 'هنوز پیش‌تنظیمی ذخیره نشده.',
+  'presets.delete': 'حذف پیش‌تنظیم'
 }
 
 const DICTS: Record<Lang, Dict> = { en, fa }

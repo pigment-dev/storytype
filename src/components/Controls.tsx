@@ -12,6 +12,7 @@ import {
 import { toHexInput } from '../utils/color'
 import { useT } from '../i18n'
 import { FontPicker } from './FontPicker'
+import { PresetsSection } from './sections/PresetsSection'
 import { ColorField, Row, Seg, Section, Slider, Switch, ToggleBtn } from './ui'
 
 export function Controls() {
@@ -35,6 +36,11 @@ export function Controls() {
 
   return (
     <div className="controls">
+      {/* ---------- PRESETS ---------- */}
+      <Section title={t('section.presets')}>
+        <PresetsSection />
+      </Section>
+
       {/* ---------- CANVAS (preview) ---------- */}
       <Section title={t('section.canvas')}>
         <Row label={t('canvas.background')}>
