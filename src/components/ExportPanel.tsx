@@ -103,8 +103,15 @@ export function ExportPanel({ captureRef }: { captureRef: RefObject<HTMLDivEleme
         <button type="button" className="btn primary big" disabled={busy} onClick={onCopy}>
           {busy ? t('export.rendering') : t('export.copy')}
         </button>
-        <button type="button" className="btn" disabled={busy} onClick={onSave} title={t('export.save')}>
-          {ios ? t('export.saveIos') : t('export.save')}
+        <button
+          type="button"
+          className="fab"
+          disabled={busy}
+          onClick={onSave}
+          title={ios ? t('export.saveIos') : t('export.save')}
+          aria-label={ios ? t('export.saveIos') : t('export.save')}
+        >
+          <span aria-hidden="true">⭳</span>
         </button>
       </div>
     </div>
