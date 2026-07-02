@@ -67,7 +67,7 @@ export function SettingsDock() {
   ]
 
   return (
-    <nav className="dock" aria-label={t('section.text')}>
+    <nav className="dock" aria-label={t('dock.label')}>
       {items.map((item) => (
         <DockButton key={item.key} item={item} />
       ))}

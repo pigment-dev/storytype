@@ -95,7 +95,8 @@ const en: Dict = {
   'presets.empty': 'No saved presets yet.',
   'presets.delete': 'Delete preset',
 
-  'toggle.enable': 'Enable'
+  'toggle.enable': 'Enable',
+  'dock.label': 'Settings'
 }
 
 const fa: Dict = {
@@ -190,7 +191,8 @@ const fa: Dict = {
   'presets.empty': 'هنوز پیش‌تنظیمی ذخیره نشده.',
   'presets.delete': 'حذف پیش‌تنظیم',
 
-  'toggle.enable': 'فعال'
+  'toggle.enable': 'فعال',
+  'dock.label': 'تنظیمات'
 }
 
 const DICTS: Record<Lang, Dict> = { en, fa }

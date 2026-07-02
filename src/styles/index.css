@@ -1159,3 +1159,13 @@ input {
   background: linear-gradient(180deg, transparent, var(--bg) 40%);
   padding-top: 24px;
 }
+/* On short viewports (e.g. iPhone SE-class, ~667px tall) the vertically-centered
+   triangle slider can grow tall enough to reach behind the dock overlay. Cap its
+   height so it always clears the dock's ~180px footprint; on taller phones the
+   `calc()` term is larger than 420px and the existing cap wins, so this is a
+   no-op there. */
+@media (max-width: 900px) {
+  .vslider {
+    height: min(52vh, 420px, max(160px, calc(100vh - 420px)));
+  }
+}

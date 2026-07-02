@@ -72,10 +72,18 @@ export function Slider({
     const first = valueFromX(e.clientX)
     setLocal(first)
     onChange(first)
+    // onChange may run a Lexical editor.update() (e.g. font size/weight/outline/shadow
+    // sliders), which restores the native DOM selection and refocuses the contentEditable
+    // as a side effect — silently undoing the blur above and reopening the mobile
+    // keyboard. Lexical flushes that reconciliation in a microtask, so a plain
+    // synchronous re-blur here runs too early; defer to the next animation frame
+    // (after microtasks drain) so the re-blur actually lands after Lexical's.
+    requestAnimationFrame(blurActiveEditable)
     const move = (ev: PointerEvent) => {
       const n = valueFromX(ev.clientX)
       setLocal(n)
       onChange(n)
+      requestAnimationFrame(blurActiveEditable)
     }
     const up = () => {
       setDragging(false)
@@ -165,10 +173,17 @@ export function VerticalSlider({
     const first = valueFromY(e.clientY)
     setLocal(first)
     onChange(first)
+    // See the matching comment in Slider.onPointerDown: onChange (font size, here)
+    // runs a Lexical editor.update() that refocuses the contentEditable as a side
+    // effect, undoing the blur above and reopening the mobile keyboard mid-drag.
+    // Lexical flushes that in a microtask, so defer the re-blur to the next
+    // animation frame to land after it.
+    requestAnimationFrame(blurActiveEditable)
     const move = (ev: PointerEvent) => {
       const n = valueFromY(ev.clientY)
       setLocal(n)
       onChange(n)
+      requestAnimationFrame(blurActiveEditable)
     }
     const up = () => {
       setDragging(false)
