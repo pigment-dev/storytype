@@ -243,7 +243,12 @@ export function Popover({
       // anchor position, only for viewport size.
       const naturalMax = Math.min(window.innerHeight * 0.7, 520)
       const available = (flip ? spaceAbove : spaceBelow) - 10 - M
-      const maxHeight = Math.min(naturalMax, Math.max(80, available))
+      // No artificial floor here: any floor above 0 can exceed `available` on
+      // cramped viewports and push the popover past the viewport edge. The
+      // only safe floor is 0, guarding against a negative/zero `available`
+      // (e.g. an off-screen anchor) producing an invalid negative max-height.
+      // overflow-y: auto (in CSS) keeps content scrollable if it doesn't fit.
+      const maxHeight = Math.max(0, Math.min(naturalMax, available))
       setPos({ left, tailLeft, flip, offset, maxHeight })
     }
     reposition()
