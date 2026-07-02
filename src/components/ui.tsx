@@ -201,6 +201,7 @@ interface PopoverPos {
   tailLeft: number
   flip: boolean
   offset: number
+  maxHeight: number
 }
 
 /** Generic anchored popover with a triangular tail pointing at its trigger.
@@ -236,7 +237,14 @@ export function Popover({
       const flip = spaceAbove > spaceBelow
       const offset = flip ? window.innerHeight - r.top + 10 : r.bottom + 10
       const tailLeft = Math.max(16, Math.min(r.left + r.width / 2 - left, W - 16))
-      setPos({ left, tailLeft, flip, offset })
+      // Clamp the box height to whatever room the chosen side actually has, so it
+      // can never render with its top above 0 or its bottom past innerHeight —
+      // the CSS max-height (min(70vh, 520px)) alone doesn't account for a cramped
+      // anchor position, only for viewport size.
+      const naturalMax = Math.min(window.innerHeight * 0.7, 520)
+      const available = (flip ? spaceAbove : spaceBelow) - 10 - M
+      const maxHeight = Math.min(naturalMax, Math.max(80, available))
+      setPos({ left, tailLeft, flip, offset, maxHeight })
     }
     reposition()
     window.addEventListener('resize', reposition)
@@ -263,7 +271,11 @@ export function Popover({
       <div className="popover-backdrop" onClick={onClose} />
       <div
         className={pos.flip ? 'popover popover-up' : 'popover popover-down'}
-        style={{ left: pos.left, ...(pos.flip ? { bottom: pos.offset } : { top: pos.offset }) }}
+        style={{
+          left: pos.left,
+          maxHeight: pos.maxHeight,
+          ...(pos.flip ? { bottom: pos.offset } : { top: pos.offset })
+        }}
       >
         <div className="popover-tail" style={{ left: pos.tailLeft }} />
         <div className="popover-body">{children}</div>
