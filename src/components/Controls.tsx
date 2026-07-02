@@ -292,7 +292,7 @@ export function Controls() {
           />
         </Row>
         <Row label={t('layout.lineHeight')}>
-          <Slider value={b.lineHeight} min={0.8} max={2.5} step={0.05} onChange={(v) => setBlock({ lineHeight: v })} />
+          <Slider value={b.lineHeight} min={-1} max={3} step={0.05} onChange={(v) => setBlock({ lineHeight: v })} />
         </Row>
         <Row label={t('layout.letterSpacing')}>
           <Slider value={b.letterSpacing} min={-10} max={40} step={0.5} suffix="px" onChange={(v) => setBlock({ letterSpacing: v })} />
