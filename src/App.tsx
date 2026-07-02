@@ -6,6 +6,7 @@ import { Stage } from './components/Stage'
 import { Controls } from './components/Controls'
 import { ExportPanel } from './components/ExportPanel'
 import { QualityButton } from './components/QualityButton'
+import { AboutButton } from './components/AboutButton'
 import { Seg } from './components/ui'
 import { useAppStore } from './store/useStore'
 import type { Lang } from './store/useStore'
@@ -78,6 +79,7 @@ export default function App() {
           </div>
           <div className="topbar-actions">
             <QualityButton />
+            <AboutButton />
             <button type="button" className="ghost-btn" onClick={resetStyles}>
               {t('reset')}
             </button>

@@ -84,7 +84,10 @@ const en: Dict = {
   'export.close': 'Close',
 
   placeholder: 'Type your text…',
-  reset: 'Reset'
+  reset: 'Reset',
+  'about.title': 'About',
+  'about.license': 'License',
+  'about.github': 'GitHub'
 }
 
 const fa: Dict = {
@@ -168,7 +171,10 @@ const fa: Dict = {
   'export.close': 'بستن',
 
   placeholder: 'متن خود را بنویسید…',
-  reset: 'بازنشانی'
+  reset: 'بازنشانی',
+  'about.title': 'درباره',
+  'about.license': 'مجوز',
+  'about.github': 'گیت‌هاب'
 }
 
 const DICTS: Record<Lang, Dict> = { en, fa }
