@@ -4,7 +4,6 @@ import type { SelectionStyle, StageBg } from '../store/useStore'
 import {
   setColor,
   setDecoration,
-  setFontSize,
   setFontWeight,
   setItalic,
   setStroke,
@@ -60,19 +59,6 @@ export function Controls() {
       <Section title={t('section.text')}>
         <Row label={t('text.font')}>
           <FontPicker />
-        </Row>
-        <Row label={t('text.size')}>
-          <Slider
-            value={s.fontSize}
-            min={12}
-            max={280}
-            step={1}
-            suffix="px"
-            onChange={(v) => {
-              setFontSize(editor, v)
-              setSelection({ fontSize: v })
-            }}
-          />
         </Row>
         <Row label={t('text.weight')}>
           <Slider

@@ -1015,3 +1015,61 @@ input {
   opacity: 0.6;
   cursor: default;
 }
+
+.vslider {
+  position: absolute;
+  inset-inline-end: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: min(52vh, 420px);
+  z-index: 5;
+}
+.vslider-hit {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  touch-action: none;
+  outline: none;
+}
+.vslider-hit:focus-visible ~ .vslider-thumb {
+  box-shadow: 0 0 0 4px rgba(124, 140, 255, 0.4);
+}
+.vslider-shape {
+  position: absolute;
+  inset-inline: 8px;
+  inset-block: 0;
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+  overflow: hidden;
+  pointer-events: none;
+}
+.vslider-rail {
+  position: absolute;
+  inset: 0;
+  background: var(--line);
+}
+.vslider-fill {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  background: var(--accent);
+}
+.vslider-thumb {
+  position: absolute;
+  inset-inline: 2px;
+  height: 4px;
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+.vslider-val {
+  position: absolute;
+  bottom: -22px;
+  inset-inline: -8px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}

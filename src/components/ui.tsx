@@ -133,6 +133,102 @@ export function Slider({
   )
 }
 
+/** Vertical triangle-shaped slider: drag top-to-bottom, top = max, bottom = min. */
+export function VerticalSlider({
+  value,
+  min,
+  max,
+  step = 1,
+  onChange,
+  suffix = ''
+}: {
+  value: number
+  min: number
+  max: number
+  step?: number
+  onChange: (v: number) => void
+  suffix?: string
+}) {
+  const hitRef = useRef<HTMLDivElement>(null)
+  const [dragging, setDragging] = useState(false)
+  const [local, setLocal] = useState(value)
+  const v = dragging ? local : value
+  const pct = max > min ? ((v - min) / (max - min)) * 100 : 0
+
+  function valueFromY(clientY: number): number {
+    const el = hitRef.current
+    if (!el) return v
+    const r = el.getBoundingClientRect()
+    let ratio = 1 - (clientY - r.top) / r.height
+    ratio = Math.max(0, Math.min(1, ratio))
+    let val = min + ratio * (max - min)
+    val = Math.round(val / step) * step
+    val = Math.max(min, Math.min(max, val))
+    return parseFloat(val.toFixed(4))
+  }
+
+  function onPointerDown(e: ReactPointerEvent) {
+    e.preventDefault()
+    blurActiveEditable()
+    setDragging(true)
+    const first = valueFromY(e.clientY)
+    setLocal(first)
+    onChange(first)
+    const move = (ev: PointerEvent) => {
+      const n = valueFromY(ev.clientY)
+      setLocal(n)
+      onChange(n)
+    }
+    const up = () => {
+      setDragging(false)
+      window.removeEventListener('pointermove', move)
+      window.removeEventListener('pointerup', up)
+      window.removeEventListener('pointercancel', up)
+    }
+    window.addEventListener('pointermove', move)
+    window.addEventListener('pointerup', up)
+    window.addEventListener('pointercancel', up)
+  }
+
+  function onKeyDown(e: ReactKeyboardEvent) {
+    let nv = v
+    if (e.key === 'ArrowUp' || e.key === 'ArrowRight') nv = v + step
+    else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') nv = v - step
+    else if (e.key === 'Home') nv = min
+    else if (e.key === 'End') nv = max
+    else return
+    e.preventDefault()
+    onChange(parseFloat(Math.max(min, Math.min(max, nv)).toFixed(4)))
+  }
+
+  return (
+    <div className="vslider">
+      <div
+        ref={hitRef}
+        className="vslider-hit"
+        role="slider"
+        tabIndex={0}
+        aria-orientation="vertical"
+        aria-valuemin={min}
+        aria-valuemax={max}
+        aria-valuenow={v}
+        onPointerDown={onPointerDown}
+        onKeyDown={onKeyDown}
+      >
+        <div className="vslider-shape">
+          <div className="vslider-rail" />
+          <div className="vslider-fill" style={{ height: `${pct}%` }} />
+        </div>
+        <div className="vslider-thumb" style={{ bottom: `calc(${pct}% - 2px)` }} />
+      </div>
+      <span className="vslider-val">
+        {Math.round(v)}
+        {suffix}
+      </span>
+    </div>
+  )
+}
+
 /** Color field: a swatch that opens a custom Iris-style color picker in a portal. */
 export function ColorField({
   value,

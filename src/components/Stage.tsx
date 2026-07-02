@@ -4,10 +4,13 @@ import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { useAppStore } from '../store/useStore'
 import { hexToRgba } from '../utils/color'
 import { useT } from '../i18n'
 import { SelectionStatePlugin } from '../editor/SelectionStatePlugin'
+import { setFontSize } from '../editor/styleCommands'
+import { VerticalSlider } from './ui'
 
 const SOLID: Record<string, string> = { dark: '#0b0b0f', light: '#e9e9ee' }
 
@@ -15,6 +18,9 @@ export function Stage({ captureRef }: { captureRef: RefObject<HTMLDivElement | n
   const block = useAppStore((s) => s.block)
   const base = useAppStore((s) => s.base)
   const stage = useAppStore((s) => s.stage)
+  const [editor] = useLexicalComposerContext()
+  const selection = useAppStore((s) => s.selection)
+  const setSelection = useAppStore((s) => s.setSelection)
   const t = useT()
 
   const bgColor =
@@ -82,6 +88,16 @@ export function Stage({ captureRef }: { captureRef: RefObject<HTMLDivElement | n
       <HistoryPlugin />
       <AutoFocusPlugin />
       <SelectionStatePlugin />
+      <VerticalSlider
+        value={selection.fontSize}
+        min={12}
+        max={280}
+        suffix="px"
+        onChange={(v) => {
+          setFontSize(editor, v)
+          setSelection({ fontSize: v })
+        }}
+      />
     </div>
   )
 }
