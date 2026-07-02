@@ -5,6 +5,7 @@ import { canvasToBlob, exportPng, renderToCanvas, trimTransparent } from '../ser
 import { copyImage, downloadImage, isIOS, shareImage } from '../services/share'
 import { useT } from '../i18n'
 import { Seg } from './ui'
+import { blurActiveEditable } from '../utils/dom'
 
 interface Preview {
   url: string
@@ -26,9 +27,6 @@ export function ExportPanel({ captureRef }: { captureRef: RefObject<HTMLDivEleme
     setToast(msg)
     window.setTimeout(() => setToast(''), 2600)
   }
-  function blurEditor() {
-    ;(document.activeElement as HTMLElement | null)?.blur?.()
-  }
   function showPreview(url: string, width: number, height: number) {
     if (lastUrl.current) URL.revokeObjectURL(lastUrl.current)
     lastUrl.current = url
@@ -40,7 +38,7 @@ export function ExportPanel({ captureRef }: { captureRef: RefObject<HTMLDivEleme
     if (!node || busy) return
     setBusy(true)
     try {
-      blurEditor()
+      blurActiveEditable()
       const { blob, url, width, height } = await exportPng(node, { scale: settings.scale })
       showPreview(url, width, height)
       if (ios) {
@@ -67,7 +65,7 @@ export function ExportPanel({ captureRef }: { captureRef: RefObject<HTMLDivEleme
     if (!node || busy) return
     setBusy(true)
     copyImage(async () => {
-      blurEditor()
+      blurActiveEditable()
       let canvas = await renderToCanvas(node, settings.scale)
       canvas = trimTransparent(canvas, Math.round(settings.scale))
       const blob = await canvasToBlob(canvas)

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { PointerEvent as ReactPointerEvent } from 'react'
 import { hexToRgb, hsvToRgb, rgbToHex, rgbToHsv } from '../utils/color'
 import type { HSV } from '../utils/color'
+import { blurActiveEditable } from '../utils/dom'
 
 const PRESETS = [
   '#ffffff', '#000000', '#8e8e93', '#ff2d55', '#ff375f', '#ff9500',
@@ -61,6 +62,7 @@ export function ColorPicker({
   function startDrag(handler: (x: number, y: number) => void) {
     return (e: ReactPointerEvent) => {
       e.preventDefault()
+      blurActiveEditable()
       handler(e.clientX, e.clientY)
       const move = (ev: PointerEvent) => handler(ev.clientX, ev.clientY)
       const up = () => {

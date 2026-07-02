@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import type { KeyboardEvent as ReactKeyboardEvent, PointerEvent as ReactPointerEvent, ReactNode } from 'react'
 import { ColorPicker } from './ColorPicker'
+import { blurActiveEditable } from '../utils/dom'
 
 export function Section({
   title,
@@ -69,7 +70,8 @@ export function Slider({
 
   function onPointerDown(e: ReactPointerEvent) {
     e.preventDefault()
-    trackRef.current?.focus()
+    blurActiveEditable()
+    if (e.pointerType !== 'touch') trackRef.current?.focus()
     setDragging(true)
     const first = valueFromX(e.clientX)
     setLocal(first)
