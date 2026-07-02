@@ -34,7 +34,7 @@ export function LayoutSection() {
         />
       </Row>
       <Row label={t('layout.lineHeight')}>
-        <Slider value={b.lineHeight} min={-1} max={3} step={0.05} onChange={(v) => setBlock({ lineHeight: v })} />
+        <Slider value={b.lineHeight} min={0} max={3} step={0.05} onChange={(v) => setBlock({ lineHeight: v })} />
       </Row>
       <Row label={t('layout.letterSpacing')}>
         <Slider

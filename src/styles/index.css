@@ -115,6 +115,10 @@ input {
 /* ---------- Stage ---------- */
 .stage {
   position: relative;
+}
+.stage-scroll {
+  position: absolute;
+  inset: 0;
   overflow: auto;
   display: grid;
   place-items: center;
@@ -431,15 +435,16 @@ input {
 .popover {
   position: fixed;
   z-index: 200;
+  width: min(320px, calc(100vw - 16px));
   border: 1px solid var(--line);
   border-radius: 14px;
   background: var(--bg-2);
   box-shadow: 0 24px 60px -20px #000;
-  max-height: min(70vh, 520px);
-  overflow-y: auto;
 }
 .popover-body {
   padding: 4px;
+  max-height: min(70vh, 520px);
+  overflow-y: auto;
 }
 .popover-title {
   font-size: 12px;
@@ -697,7 +702,7 @@ input {
 .fontmodal-overlay {
   position: fixed;
   inset: 0;
-  z-index: 120;
+  z-index: 300;
   background: rgba(0, 0, 0, 0.55);
   display: grid;
   place-items: center;
@@ -834,16 +839,6 @@ input {
   display: flex;
   flex-direction: column;
   gap: 8px;
-}
-.exportbar-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.quality {
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 .quality-label {
   font-size: 12px;

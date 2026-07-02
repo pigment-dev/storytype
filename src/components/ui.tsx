@@ -373,12 +373,13 @@ export function Popover({
         className={pos.flip ? 'popover popover-up' : 'popover popover-down'}
         style={{
           left: pos.left,
-          maxHeight: pos.maxHeight,
           ...(pos.flip ? { bottom: pos.offset } : { top: pos.offset })
         }}
       >
         <div className="popover-tail" style={{ left: pos.tailLeft }} />
-        <div className="popover-body">{children}</div>
+        <div className="popover-body" style={{ maxHeight: pos.maxHeight }}>
+          {children}
+        </div>
       </div>
     </>,
     document.body

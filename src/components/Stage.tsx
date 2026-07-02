@@ -65,24 +65,26 @@ export function Stage({ captureRef }: { captureRef: RefObject<HTMLDivElement | n
 
   return (
     <div className="stage">
-      <div
-        className={stage.bg === 'checker' ? 'stage-bg checker' : 'stage-bg'}
-        style={bgColor ? { backgroundColor: bgColor } : undefined}
-        aria-hidden="true"
-      />
-      <div className="capture" ref={captureRef}>
-        <div className="text-box" style={boxStyle}>
-          <RichTextPlugin
-            contentEditable={
-              <ContentEditable
-                className={`editable ${dirClass}${block.gradientEnabled ? ' has-gradient' : ''}`}
-                style={editableStyle}
-                aria-label="Story text"
-              />
-            }
-            placeholder={<div className="editable-placeholder">{t('placeholder')}</div>}
-            ErrorBoundary={LexicalErrorBoundary}
-          />
+      <div className="stage-scroll">
+        <div
+          className={stage.bg === 'checker' ? 'stage-bg checker' : 'stage-bg'}
+          style={bgColor ? { backgroundColor: bgColor } : undefined}
+          aria-hidden="true"
+        />
+        <div className="capture" ref={captureRef}>
+          <div className="text-box" style={boxStyle}>
+            <RichTextPlugin
+              contentEditable={
+                <ContentEditable
+                  className={`editable ${dirClass}${block.gradientEnabled ? ' has-gradient' : ''}`}
+                  style={editableStyle}
+                  aria-label="Story text"
+                />
+              }
+              placeholder={<div className="editable-placeholder">{t('placeholder')}</div>}
+              ErrorBoundary={LexicalErrorBoundary}
+            />
+          </div>
         </div>
       </div>
       <HistoryPlugin />
