@@ -4,7 +4,6 @@ import { useAppStore } from '../store/useStore'
 import { canvasToBlob, exportPng, renderToCanvas, trimTransparent } from '../services/export'
 import { copyImage, downloadImage, isIOS, shareImage } from '../services/share'
 import { useT } from '../i18n'
-import { Seg } from './ui'
 import { blurActiveEditable } from '../utils/dom'
 
 interface Preview {
@@ -16,7 +15,6 @@ interface Preview {
 export function ExportPanel({ captureRef }: { captureRef: RefObject<HTMLDivElement | null> }) {
   const t = useT()
   const settings = useAppStore((s) => s.export)
-  const setExport = useAppStore((s) => s.setExport)
   const [busy, setBusy] = useState(false)
   const [toast, setToast] = useState('')
   const [preview, setPreview] = useState<Preview | null>(null)
@@ -100,21 +98,6 @@ export function ExportPanel({ captureRef }: { captureRef: RefObject<HTMLDivEleme
           {ios && <div className="hint">{t('export.iosHint')}</div>}
         </div>
       )}
-
-      <div className="exportbar-row">
-        <div className="quality">
-          <span className="quality-label">{t('export.resolution')}</span>
-          <Seg
-            options={[
-              { value: '2', label: '2×' },
-              { value: '3', label: '3×' },
-              { value: '4', label: '4×' }
-            ]}
-            value={String(settings.scale)}
-            onChange={(v) => setExport({ scale: Number(v) })}
-          />
-        </div>
-      </div>
 
       <div className="exportbar-actions">
         <button type="button" className="btn primary big" disabled={busy} onClick={onCopy}>

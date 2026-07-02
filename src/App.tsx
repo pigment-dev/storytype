@@ -5,6 +5,7 @@ import { theme } from './editor/theme'
 import { Stage } from './components/Stage'
 import { Controls } from './components/Controls'
 import { ExportPanel } from './components/ExportPanel'
+import { QualityButton } from './components/QualityButton'
 import { Seg } from './components/ui'
 import { useAppStore } from './store/useStore'
 import type { Lang } from './store/useStore'
@@ -76,6 +77,7 @@ export default function App() {
             </div>
           </div>
           <div className="topbar-actions">
+            <QualityButton />
             <button type="button" className="ghost-btn" onClick={resetStyles}>
               {t('reset')}
             </button>

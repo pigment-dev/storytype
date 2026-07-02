@@ -446,6 +446,66 @@ input {
   box-shadow: 0 24px 60px -20px #000;
 }
 
+.popover {
+  position: fixed;
+  z-index: 200;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--bg-2);
+  box-shadow: 0 24px 60px -20px #000;
+  max-height: min(70vh, 520px);
+  overflow-y: auto;
+}
+.popover-body {
+  padding: 4px;
+}
+.popover-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  padding: 8px 10px 0;
+}
+.popover-tail {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  transform: translateX(-50%) rotate(45deg);
+}
+.popover-down .popover-tail {
+  top: -8px;
+  border-bottom: none;
+  border-right: none;
+}
+.popover-up .popover-tail {
+  bottom: -8px;
+  border-top: none;
+  border-left: none;
+}
+.icon-btn {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  border-radius: 999px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.icon-btn:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+.quality-popover {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+}
+
 /* Iris-style color picker */
 .cp {
   direction: ltr;

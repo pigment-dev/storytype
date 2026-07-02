@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import type { KeyboardEvent as ReactKeyboardEvent, PointerEvent as ReactPointerEvent, ReactNode } from 'react'
+import type {
+  KeyboardEvent as ReactKeyboardEvent,
+  PointerEvent as ReactPointerEvent,
+  ReactNode,
+  RefObject
+} from 'react'
 import { ColorPicker } from './ColorPicker'
 import { blurActiveEditable } from '../utils/dom'
 
@@ -188,6 +193,83 @@ export function ColorField({
           document.body
         )}
     </span>
+  )
+}
+
+interface PopoverPos {
+  left: number
+  tailLeft: number
+  flip: boolean
+  offset: number
+}
+
+/** Generic anchored popover with a triangular tail pointing at its trigger.
+ * Flips above/below the anchor depending on available viewport space. */
+export function Popover({
+  anchorRef,
+  open,
+  onClose,
+  children
+}: {
+  anchorRef: RefObject<HTMLElement | null>
+  open: boolean
+  onClose: () => void
+  children: ReactNode
+}) {
+  const [pos, setPos] = useState<PopoverPos | null>(null)
+
+  useEffect(() => {
+    if (!open) {
+      setPos(null)
+      return
+    }
+    const reposition = () => {
+      const el = anchorRef.current
+      if (!el) return
+      const r = el.getBoundingClientRect()
+      const M = 8
+      const W = Math.min(320, window.innerWidth - M * 2)
+      let left = r.left + r.width / 2 - W / 2
+      left = Math.max(M, Math.min(left, window.innerWidth - W - M))
+      const spaceAbove = r.top
+      const spaceBelow = window.innerHeight - r.bottom
+      const flip = spaceAbove > spaceBelow
+      const offset = flip ? window.innerHeight - r.top + 10 : r.bottom + 10
+      const tailLeft = Math.max(16, Math.min(r.left + r.width / 2 - left, W - 16))
+      setPos({ left, tailLeft, flip, offset })
+    }
+    reposition()
+    window.addEventListener('resize', reposition)
+    window.addEventListener('scroll', reposition, true)
+    return () => {
+      window.removeEventListener('resize', reposition)
+      window.removeEventListener('scroll', reposition, true)
+    }
+  }, [open, anchorRef])
+
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [open, onClose])
+
+  if (!open || !pos) return null
+
+  return createPortal(
+    <>
+      <div className="popover-backdrop" onClick={onClose} />
+      <div
+        className={pos.flip ? 'popover popover-up' : 'popover popover-down'}
+        style={{ left: pos.left, ...(pos.flip ? { bottom: pos.offset } : { top: pos.offset }) }}
+      >
+        <div className="popover-tail" style={{ left: pos.tailLeft }} />
+        <div className="popover-body">{children}</div>
+      </div>
+    </>,
+    document.body
   )
 }
 

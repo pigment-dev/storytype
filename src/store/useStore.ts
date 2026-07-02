@@ -157,7 +157,7 @@ export const useAppStore = create<AppState>()(
       selection: { ...DEFAULT_SELECTION },
       block: { ...DEFAULT_BLOCK },
       stage: { ...DEFAULT_STAGE },
-      export: { scale: 3 },
+      export: { scale: 4 },
 
       setLang: (lang) => set({ lang }),
       setFonts: (fonts) => set({ fonts }),
