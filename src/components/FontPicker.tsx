@@ -135,13 +135,17 @@ export function FontPicker() {
   const favItems = filtered.filter((i) => favSet.has(i.family))
   const restItems = filtered.filter((i) => !favSet.has(i.family)).slice(0, 240)
 
-  async function pick(item: FontItem) {
-    if (item.source === 'bundled' && item.entry) await ensureBundledFont(item.entry)
-    else await ensureGoogleFont(item.family)
-    markLoaded(item.family)
+  function pick(item: FontItem) {
     setFontFamily(editor, item.family)
     setSelection({ fontFamily: item.family })
     setOpen(false)
+    const ensure =
+      item.source === 'bundled' && item.entry
+        ? ensureBundledFont(item.entry)
+        : ensureGoogleFont(item.family)
+    ensure.then(() => markLoaded(item.family)).catch((err) => {
+      console.error('Failed to load font', item.family, err)
+    })
   }
 
   const card = (item: FontItem) => (
