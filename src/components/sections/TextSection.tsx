@@ -1,9 +1,12 @@
+import { TextB, TextItalic, TextUnderline, TextStrikethrough } from '@phosphor-icons/react'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { useAppStore } from '../../store/useStore'
 import { setDecoration, setFontWeight, setItalic } from '../../editor/styleCommands'
 import { useT } from '../../i18n'
 import { FontPicker } from '../FontPicker'
 import { Row, Slider, ToggleBtn } from '../ui'
+
+const SZ = 17
 
 export function TextSection() {
   const [editor] = useLexicalComposerContext()
@@ -39,7 +42,7 @@ export function TextSection() {
               setSelection({ fontWeight: w })
             }}
           >
-            <b>B</b>
+            <TextB size={SZ} weight="bold" />
           </ToggleBtn>
           <ToggleBtn
             active={s.italic}
@@ -49,7 +52,7 @@ export function TextSection() {
               setSelection({ italic: !s.italic })
             }}
           >
-            <i>I</i>
+            <TextItalic size={SZ} />
           </ToggleBtn>
           <ToggleBtn
             active={s.underline}
@@ -60,7 +63,7 @@ export function TextSection() {
               setSelection({ underline: v })
             }}
           >
-            <u>U</u>
+            <TextUnderline size={SZ} />
           </ToggleBtn>
           <ToggleBtn
             active={s.strike}
@@ -71,7 +74,7 @@ export function TextSection() {
               setSelection({ strike: v })
             }}
           >
-            <s>S</s>
+            <TextStrikethrough size={SZ} />
           </ToggleBtn>
         </span>
       </Row>

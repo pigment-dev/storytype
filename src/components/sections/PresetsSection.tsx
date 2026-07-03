@@ -50,9 +50,9 @@ export function PresetsSection() {
 
   return (
     <>
-      <div className="row">
+      <div className="preset-form">
         <input
-          className="preset-name-input"
+          className="field"
           placeholder={t('presets.namePlaceholder')}
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -60,7 +60,7 @@ export function PresetsSection() {
             if (e.key === 'Enter') onSave()
           }}
         />
-        <button type="button" className="btn" onClick={onSave} disabled={!name.trim()}>
+        <button type="button" className="btn btn--primary" onClick={onSave} disabled={!name.trim()}>
           {t('presets.save')}
         </button>
       </div>

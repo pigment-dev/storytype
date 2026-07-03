@@ -96,7 +96,14 @@ const en: Dict = {
   'presets.delete': 'Delete preset',
 
   'toggle.enable': 'Enable',
-  'dock.label': 'Settings'
+  'dock.label': 'Settings',
+  language: 'Language',
+  'about.desc':
+    'Type Persian or English, style it, and export a clean transparent PNG for your stories — free, and entirely in your browser.',
+  'align.start': 'Start',
+  'align.center': 'Center',
+  'align.end': 'End',
+  'align.justify': 'Justify'
 }
 
 const fa: Dict = {
@@ -192,7 +199,14 @@ const fa: Dict = {
   'presets.delete': 'حذف پیش‌تنظیم',
 
   'toggle.enable': 'فعال',
-  'dock.label': 'تنظیمات'
+  'dock.label': 'تنظیمات',
+  language: 'زبان',
+  'about.desc':
+    'فارسی یا انگلیسی بنویسید، استایلش کنید و یک PNG شفاف و تمیز برای استوری‌هایتان بگیرید — رایگان و کاملاً داخل مرورگر.',
+  'align.start': 'ابتدا',
+  'align.center': 'وسط',
+  'align.end': 'انتها',
+  'align.justify': 'هم‌تراز'
 }
 
 const DICTS: Record<Lang, Dict> = { en, fa }

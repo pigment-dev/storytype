@@ -214,10 +214,25 @@ export function VerticalSlider({
         onPointerDown={onPointerDown}
         onKeyDown={onKeyDown}
       >
-        <div className="vslider-shape">
-          <div className="vslider-rail" />
-          <div className="vslider-fill" style={{ height: `${pct}%` }} />
-        </div>
+        <svg className="vslider-svg" viewBox="0 0 40 360" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            {/* Rounded triangle: wide at the top (big font) tapering to a soft
+                point at the bottom (small font). */}
+            <clipPath id="vslider-clip">
+              <path d="M8 0 L32 0 Q40 0 39.556 7.99 L20.444 352.01 Q20 360 19.556 352.01 L0.444 7.99 Q0 0 8 0 Z" />
+            </clipPath>
+          </defs>
+          <g clipPath="url(#vslider-clip)">
+            <rect className="vslider-rail-rect" x="0" y="0" width="40" height="360" />
+            <rect
+              className="vslider-fill-rect"
+              x="0"
+              y={360 * (1 - pct / 100)}
+              width="40"
+              height={360 * (pct / 100)}
+            />
+          </g>
+        </svg>
         <div className="vslider-thumb" style={{ bottom: `calc(${pct}% - 2px)` }} />
       </div>
       <span className="vslider-val">

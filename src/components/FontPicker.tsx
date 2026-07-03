@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { CaretDown, X } from '@phosphor-icons/react'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { useAppStore } from '../store/useStore'
 import { ensureBundledFont, ensureGoogleFont } from '../services/fonts'
@@ -169,7 +170,9 @@ export function FontPicker() {
         onClick={() => setOpen(true)}
       >
         <span className="font-trigger-name">{current}</span>
-        <span className="font-trigger-caret">▾</span>
+        <span className="font-trigger-caret">
+          <CaretDown size={14} />
+        </span>
       </button>
 
       {open &&
@@ -184,12 +187,12 @@ export function FontPicker() {
                   onClick={() => setOpen(false)}
                   aria-label={t('export.close')}
                 >
-                  ×
+                  <X size={16} weight="bold" />
                 </button>
               </header>
               <div className="fontmodal-top">
                 <input
-                  className="font-search"
+                  className="field"
                   placeholder={t('font.search')}
                   value={q}
                   onChange={(e) => setQ(e.target.value)}

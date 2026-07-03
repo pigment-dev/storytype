@@ -1,19 +1,23 @@
 import { useEffect, useRef } from 'react'
 import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import type { InitialConfigType } from '@lexical/react/LexicalComposer'
+import { ArrowCounterClockwise } from '@phosphor-icons/react'
 import { theme } from './editor/theme'
 import { Stage } from './components/Stage'
 import { Controls } from './components/Controls'
-import { ExportPanel } from './components/ExportPanel'
 import { QualityButton } from './components/QualityButton'
 import { AboutButton } from './components/AboutButton'
+import { Logo } from './components/Logo'
 import { Seg } from './components/ui'
+import { ExportProvider } from './components/export/ExportProvider'
+import { ExportBar, ExportFabs } from './components/export/ExportActions'
+import { SettingsDock } from './components/SettingsDock'
+import { UpdatePrompt } from './components/UpdatePrompt'
 import { useAppStore } from './store/useStore'
 import type { Lang } from './store/useStore'
 import { useT } from './i18n'
 import { ensureBundledFont, loadGoogleCatalog, loadManifest } from './services/fonts'
 import { useIsMobile } from './hooks/useIsMobile'
-import { SettingsDock } from './components/SettingsDock'
 
 const initialConfig: InitialConfigType = {
   namespace: 'StoryType',
@@ -67,61 +71,75 @@ export default function App() {
     }
   }, [setFonts, setGoogleFonts, setFontsReady, markLoaded])
 
+  const langSeg = (
+    <Seg<Lang>
+      options={[
+        { value: 'fa', label: 'فا' },
+        { value: 'en', label: 'EN' }
+      ]}
+      value={lang}
+      onChange={setLang}
+    />
+  )
+
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <div className="app">
         <header className="topbar">
           <div className="brand">
-            <span className="logo" aria-hidden="true">
-              S
-            </span>
+            <Logo />
             <div className="brand-text">
               <h1>StoryType</h1>
             </div>
           </div>
           <div className="topbar-actions">
-            {!isMobile && <QualityButton />}
             <AboutButton />
-            {!isMobile && (
-              <button type="button" className="ghost-btn" onClick={resetStyles}>
-                {t('reset')}
-              </button>
-            )}
-            <Seg<Lang>
-              options={[
-                { value: 'fa', label: 'فا' },
-                { value: 'en', label: 'EN' }
-              ]}
-              value={lang}
-              onChange={setLang}
-            />
           </div>
         </header>
 
         <main className={isMobile ? 'workspace workspace-mobile' : 'workspace'}>
-          <Stage captureRef={captureRef} />
-          {isMobile ? (
-            <div className="mobile-dock-wrap">
-              <SettingsDock />
-              <ExportPanel captureRef={captureRef} />
-            </div>
-          ) : (
-            <aside className="panel">
-              <div className="panel-scroll">
-                <Controls />
-                <div className="app-footer">
-                  <a href="https://pigment.dev" target="_blank" rel="noreferrer">
-                    Pigment Development
-                  </a>
-                  <span>
-                    v{__APP_VERSION__} · build {__BUILD_ID__}
-                  </span>
+          <ExportProvider captureRef={captureRef}>
+            <Stage captureRef={captureRef} />
+            {isMobile ? (
+              <>
+                <ExportFabs />
+                <div className="mobile-dock-wrap">
+                  <SettingsDock />
                 </div>
-              </div>
-              <ExportPanel captureRef={captureRef} />
-            </aside>
-          )}
+              </>
+            ) : (
+              <aside className="panel">
+                <div className="panel-toolbar">
+                  {langSeg}
+                  <span className="spacer" />
+                  <QualityButton />
+                  <button
+                    type="button"
+                    className="icon-btn"
+                    onClick={resetStyles}
+                    title={t('reset')}
+                    aria-label={t('reset')}
+                  >
+                    <ArrowCounterClockwise size={18} />
+                  </button>
+                </div>
+                <div className="panel-scroll">
+                  <Controls />
+                  <div className="app-footer">
+                    <a href="https://pigment.dev" target="_blank" rel="noreferrer">
+                      Pigment Development
+                    </a>
+                    <span>
+                      v{__APP_VERSION__} · build {__BUILD_ID__}
+                    </span>
+                  </div>
+                </div>
+                <ExportBar />
+              </aside>
+            )}
+          </ExportProvider>
         </main>
+        <UpdatePrompt />
       </div>
     </LexicalComposer>
   )

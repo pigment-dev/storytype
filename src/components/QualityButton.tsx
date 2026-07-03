@@ -1,16 +1,17 @@
 import { useRef, useState } from 'react'
+import { GearSix } from '@phosphor-icons/react'
 import { useAppStore } from '../store/useStore'
 import { useT } from '../i18n'
 import { Popover, Seg } from './ui'
 
-/** Bare quality Seg, reused standalone by the mobile SettingsDock. */
+/** Bare quality control (the segmented scale). The surrounding context — a
+ * popover title or a toolbar label — names it, so this renders no label of its
+ * own (which previously duplicated the popover title on mobile). */
 export function QualityContent() {
-  const t = useT()
   const settings = useAppStore((s) => s.export)
   const setExport = useAppStore((s) => s.setExport)
   return (
-    <div className="quality-popover">
-      <span className="quality-label">{t('export.resolution')}</span>
+    <div className="quality-content">
       <Seg
         options={[
           { value: '2', label: '2×' },
@@ -25,7 +26,7 @@ export function QualityContent() {
   )
 }
 
-/** Gear icon + popover, used in the header. */
+/** Gear icon + popover — used in the desktop panel toolbar. */
 export function QualityButton() {
   const t = useT()
   const btnRef = useRef<HTMLButtonElement>(null)
@@ -40,9 +41,10 @@ export function QualityButton() {
         aria-label={t('export.resolution')}
         onClick={() => setOpen((o) => !o)}
       >
-        ⚙
+        <GearSix size={18} />
       </button>
       <Popover anchorRef={btnRef} open={open} onClose={() => setOpen(false)}>
+        <div className="popover-title">{t('export.resolution')}</div>
         <QualityContent />
       </Popover>
     </>

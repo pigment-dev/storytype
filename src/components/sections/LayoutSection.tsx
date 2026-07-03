@@ -1,7 +1,18 @@
+import {
+  TextAlignLeft,
+  TextAlignCenter,
+  TextAlignRight,
+  TextAlignJustify,
+  ArrowsHorizontal,
+  ArrowRight,
+  ArrowLeft
+} from '@phosphor-icons/react'
 import { useAppStore } from '../../store/useStore'
 import type { BlockStyle } from '../../store/useStore'
 import { useT } from '../../i18n'
 import { Row, Seg, Slider } from '../ui'
+
+const SZ = 16
 
 export function LayoutSection() {
   const t = useT()
@@ -13,10 +24,10 @@ export function LayoutSection() {
       <Row label={t('layout.align')}>
         <Seg<BlockStyle['textAlign']>
           options={[
-            { value: 'start', label: '⇤', title: 'Start' },
-            { value: 'center', label: '↔', title: 'Center' },
-            { value: 'end', label: '⇥', title: 'End' },
-            { value: 'justify', label: '☰', title: 'Justify' }
+            { value: 'start', label: <TextAlignLeft size={SZ} />, title: t('align.start') },
+            { value: 'center', label: <TextAlignCenter size={SZ} />, title: t('align.center') },
+            { value: 'end', label: <TextAlignRight size={SZ} />, title: t('align.end') },
+            { value: 'justify', label: <TextAlignJustify size={SZ} />, title: t('align.justify') }
           ]}
           value={b.textAlign}
           onChange={(v) => setBlock({ textAlign: v })}
@@ -25,9 +36,9 @@ export function LayoutSection() {
       <Row label={t('layout.direction')}>
         <Seg<BlockStyle['direction']>
           options={[
-            { value: 'auto', label: t('dir.auto') },
-            { value: 'rtl', label: t('dir.rtl') },
-            { value: 'ltr', label: t('dir.ltr') }
+            { value: 'auto', label: <ArrowsHorizontal size={SZ} />, title: t('dir.auto') },
+            { value: 'rtl', label: <ArrowLeft size={SZ} />, title: t('dir.rtl') },
+            { value: 'ltr', label: <ArrowRight size={SZ} />, title: t('dir.ltr') }
           ]}
           value={b.direction}
           onChange={(v) => setBlock({ direction: v })}
