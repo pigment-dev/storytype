@@ -109,6 +109,11 @@ export function FontPicker() {
   const [open, setOpen] = useState(false)
   const [q, setQ] = useState('')
   const [subset, setSubset] = useState<Subset>('all')
+  // Reveal fonts in batches on scroll so the whole catalog (~1800 families) is
+  // browsable without mounting every card up front.
+  const BATCH = 120
+  const [visible, setVisible] = useState(BATCH)
+  const sentinel = useRef<HTMLDivElement>(null)
 
   const items = useMemo<FontItem[]>(() => {
     const list: FontItem[] = []
@@ -134,7 +139,30 @@ export function FontPicker() {
   const filtered = items.filter((i) => matches(i.family, q) || matches(i.label, q))
   const favSet = new Set(favorites)
   const favItems = filtered.filter((i) => favSet.has(i.family))
-  const restItems = filtered.filter((i) => !favSet.has(i.family)).slice(0, 240)
+  const rest = filtered.filter((i) => !favSet.has(i.family))
+  const restItems = rest.slice(0, visible)
+
+  // Any change to what's being shown resets the reveal window to the top.
+  useEffect(() => {
+    setVisible(BATCH)
+  }, [q, subset, googleEnabled, open])
+
+  // Grow the reveal window as the sentinel scrolls into view.
+  useEffect(() => {
+    if (!open || restItems.length >= rest.length) return
+    const el = sentinel.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setVisible((v) => v + BATCH)
+        }
+      },
+      { rootMargin: '400px' }
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [open, restItems.length, rest.length])
 
   function pick(item: FontItem) {
     setFontFamily(editor, item.family)
@@ -223,6 +251,9 @@ export function FontPicker() {
                 )}
                 <div className="font-grid-label">{t('font.all2')}</div>
                 {restItems.map(card)}
+                {restItems.length < rest.length && (
+                  <div ref={sentinel} className="font-grid-sentinel" aria-hidden />
+                )}
                 {filtered.length === 0 && <div className="font-empty">{t('font.empty')}</div>}
               </div>
             </div>

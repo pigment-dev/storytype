@@ -964,6 +964,10 @@ input {
   padding: var(--s2) 2px 2px;
   font-weight: 700;
 }
+.font-grid-sentinel {
+  grid-column: 1 / -1;
+  height: 1px;
+}
 .fc {
   position: relative;
   border: 1px solid var(--line);
