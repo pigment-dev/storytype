@@ -9,3 +9,7 @@ node_modules/.tmp
 # Local env / secrets (Google Fonts API key for the catalog refresh script)
 .env
 .env.local
+
+# Local tooling / assistant artifacts — never commit
+.claude/
+docs/superpowers/
