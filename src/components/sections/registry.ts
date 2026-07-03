@@ -15,16 +15,17 @@ export interface SectionDef {
   Component: ComponentType
 }
 
-// Order: font first, then fill/color, outline, shadows, box, layout, canvas,
-// presets last. Shared by the desktop sidebar and the mobile settings sheet.
+// Order: text, layout, color, background box, text shadow, layer shadow, then
+// the rest (outline, canvas, presets). Shared by the desktop sidebar and the
+// mobile menu.
 export const SECTIONS: SectionDef[] = [
   { key: 'text', titleKey: 'section.text', Component: TextSection },
+  { key: 'layout', titleKey: 'section.layout', Component: LayoutSection },
   { key: 'colorFill', titleKey: 'section.colorFill', Component: ColorFillSection },
-  { key: 'outline', titleKey: 'section.outline', Component: OutlineSection },
+  { key: 'box', titleKey: 'section.box', Component: BoxSection },
   { key: 'textShadow', titleKey: 'section.textShadow', Component: ShadowSection },
   { key: 'dropShadow', titleKey: 'section.dropShadow', Component: DropShadowSection },
-  { key: 'box', titleKey: 'section.box', Component: BoxSection },
-  { key: 'layout', titleKey: 'section.layout', Component: LayoutSection },
+  { key: 'outline', titleKey: 'section.outline', Component: OutlineSection },
   { key: 'canvas', titleKey: 'section.canvas', Component: CanvasSection },
   { key: 'presets', titleKey: 'section.presets', Component: PresetsSection }
 ]

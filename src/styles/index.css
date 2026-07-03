@@ -455,6 +455,11 @@ input {
   flex-direction: column;
   gap: var(--s2);
 }
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
 
 .section {
   border: 1px solid var(--line);
@@ -1190,47 +1195,39 @@ input {
   inset: 0;
 }
 
-/* Stacked floating buttons (bottom, leading edge): Settings, Copy, Save */
-.mfab-stack {
+/* Two floating buttons at the bottom-right: Copy (primary) + ⋮ menu toggle */
+.mfab-row {
   position: absolute;
-  inset-inline-start: var(--s4);
-  bottom: calc(env(safe-area-inset-bottom) + var(--s4));
+  right: 16px;
+  bottom: calc(env(safe-area-inset-bottom) + 16px);
   z-index: 20;
   display: flex;
-  flex-direction: column;
   align-items: center;
   gap: var(--s3);
 }
-.mfab {
+.mfab-btn {
   border: none;
-  background: transparent;
-  padding: 0;
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--s1);
-}
-.mfab:disabled {
-  opacity: 0.55;
-  cursor: default;
-}
-.mfab-label {
-  font-size: var(--fz-2xs);
-  font-weight: 600;
-  color: var(--muted);
-}
-.mfab-circle {
   display: grid;
   place-items: center;
   border-radius: 50%;
   transition: transform 0.12s var(--ease), filter 0.12s var(--ease);
 }
-.mfab:active .mfab-circle {
+.mfab-btn:active {
   transform: scale(0.93);
 }
-.mfab--settings .mfab-circle,
-.mfab--soft .mfab-circle {
+.mfab-btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.mfab-btn--primary {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  box-shadow: 0 14px 30px -8px rgba(95, 109, 255, 0.6);
+}
+.mfab-btn--menu {
   width: 52px;
   height: 52px;
   background: var(--elevated);
@@ -1238,75 +1235,135 @@ input {
   color: var(--text);
   box-shadow: var(--shadow-2);
 }
-.mfab--primary .mfab-circle {
-  width: 62px;
-  height: 62px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+.mfab-btn--menu.active {
+  background: var(--accent-2);
+  border-color: var(--accent-2);
   color: #fff;
-  box-shadow: 0 14px 30px -8px rgba(95, 109, 255, 0.6);
 }
 
-/* Settings bottom sheet */
-.sheet-backdrop {
+/* Vertical scrollable menu of setting-group icons, rising above the ⋮ button */
+.mmenu-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 500;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: flex-end;
+  z-index: 24; /* transparent: catches taps to dismiss, canvas stays visible */
 }
-.sheet {
-  width: 100%;
-  max-height: 88vh;
+.mmenu {
+  position: fixed;
+  right: 16px;
+  bottom: calc(env(safe-area-inset-bottom) + 16px + 52px + 12px);
+  z-index: 25;
+  width: 56px;
+  max-height: 64vh;
   display: flex;
   flex-direction: column;
-  background: var(--bg-2);
-  border-top: 1px solid var(--line);
-  border-top-left-radius: var(--r-xl);
-  border-top-right-radius: var(--r-xl);
-  box-shadow: 0 -24px 60px -20px #000;
-  animation: sheet-up 0.24s var(--ease);
+  background: color-mix(in srgb, var(--bg-2) 82%, transparent);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-2);
+  animation: mmenu-in 0.16s var(--ease);
 }
-@keyframes sheet-up {
+@keyframes mmenu-in {
   from {
-    transform: translateY(100%);
+    opacity: 0;
+    transform: translateY(8px);
   }
   to {
+    opacity: 1;
     transform: none;
   }
 }
-.sheet-head {
-  position: relative;
+.mmenu-head {
   flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--s4) var(--s4) var(--s3);
+  display: grid;
+  place-items: center;
+  padding: var(--s1);
   border-bottom: 1px solid var(--line);
 }
-.sheet-grabber {
-  position: absolute;
-  top: 6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40px;
-  height: 4px;
-  border-radius: var(--r-pill);
-  background: var(--line-2);
+.mmenu-close {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  border-radius: var(--r-sm);
+  cursor: pointer;
 }
-.sheet-title {
-  font-size: var(--fz-md);
-  font-weight: 700;
+.mmenu-close:hover {
+  color: var(--text);
 }
-.sheet-body {
+.mmenu-list {
   overflow-y: auto;
-  padding: var(--s3);
-  padding-bottom: calc(env(safe-area-inset-bottom) + var(--s4));
+  scrollbar-width: none;
   display: flex;
   flex-direction: column;
-  gap: var(--s2);
+  gap: var(--s1);
+  padding: var(--s2);
 }
-/* Give the vertical font-size slider room on mobile (no dock to clear now). */
+.mmenu-list::-webkit-scrollbar {
+  display: none;
+}
+.mmenu-item {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: var(--r-md);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.12s var(--ease), border-color 0.12s var(--ease);
+}
+.mmenu-item:hover {
+  background: var(--panel-2);
+}
+.mmenu-item.active {
+  background: var(--accent-2);
+  border-color: var(--accent-2);
+  color: #fff;
+}
+
+/* Small translucent group popover (opens left of a menu item, tail on the right) */
+.mpop-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 26; /* transparent: canvas stays visible behind the popover */
+}
+.mpop {
+  position: fixed;
+  z-index: 27;
+  width: min(250px, calc(100vw - 96px));
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: color-mix(in srgb, var(--bg-2) 84%, transparent);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-pop);
+}
+.mpop-tail {
+  position: absolute;
+  right: -9px;
+  width: 0;
+  height: 0;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  border-left: 9px solid color-mix(in srgb, var(--bg-2) 84%, transparent);
+}
+.mpop-body {
+  padding: var(--s3);
+  max-height: 62vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+/* Give the vertical font-size slider room on mobile. */
 @media (max-width: 900px) {
   .vslider {
     height: min(52vh, 420px);

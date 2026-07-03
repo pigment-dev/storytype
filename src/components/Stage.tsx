@@ -90,7 +90,7 @@ export function Stage({ captureRef }: { captureRef: RefObject<HTMLDivElement | n
       <SelectionStatePlugin />
       <VerticalSlider
         value={selection.fontSize}
-        min={12}
+        min={3}
         max={280}
         suffix="px"
         onChange={(v) => {
