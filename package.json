@@ -1,7 +1,7 @@
 {
   "name": "storytype",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "description": "Type Persian or English, style it richly, export as a tight transparent PNG for Instagram stories. By Pigment Development.",
   "homepage": "https://pigment.dev/storytype",

@@ -69,6 +69,14 @@ body,
   margin: 0;
   overflow: hidden;
 }
+/* Fill the true visual viewport on iOS PWA (avoids a gap at the bottom). */
+@supports (height: 100dvh) {
+  html,
+  body,
+  #root {
+    height: 100dvh;
+  }
+}
 
 body {
   background: var(--bg);
@@ -1195,13 +1203,14 @@ input {
   inset: 0;
 }
 
-/* Two floating buttons at the bottom-right: Copy (primary) + ⋮ menu toggle */
-.mfab-row {
+/* Two floating buttons at the bottom-right, stacked: ⋮ menu on top, Copy below */
+.mfab-stack {
   position: absolute;
   right: 16px;
-  bottom: calc(env(safe-area-inset-bottom) + 16px);
+  bottom: max(6px, env(safe-area-inset-bottom));
   z-index: 20;
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: var(--s3);
 }
@@ -1358,10 +1367,33 @@ input {
 .mpop-body {
   padding: var(--s3);
   max-height: 62vh;
+  overflow-x: hidden;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: var(--s3);
+}
+/* In the narrow popover, stack each control under its label so nothing scrolls
+   sideways and segmented controls fill the width (no horizontal overflow). */
+.mpop .row {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--s1);
+  min-height: 0;
+}
+.mpop .row-label {
+  flex: none;
+}
+.mpop .row-control {
+  width: 100%;
+}
+.mpop .seg,
+.mpop .btn-group {
+  width: 100%;
+}
+.mpop .seg-btn {
+  flex: 1;
+  min-width: 0;
 }
 /* Give the vertical font-size slider room on mobile. */
 @media (max-width: 900px) {

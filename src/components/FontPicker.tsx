@@ -196,7 +196,6 @@ export function FontPicker() {
                   placeholder={t('font.search')}
                   value={q}
                   onChange={(e) => setQ(e.target.value)}
-                  autoFocus
                 />
                 <div className="fontmodal-filters">
                   <Seg<Subset>

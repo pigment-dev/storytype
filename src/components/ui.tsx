@@ -404,14 +404,18 @@ export function Popover({
 export function Seg<T extends string>({
   options,
   value,
-  onChange
+  onChange,
+  ltr = false
 }: {
   options: { value: T; label: ReactNode; title?: string }[]
   value: T
   onChange: (v: T) => void
+  /** Force a stable left-to-right button order (for directional controls whose
+   * icons would otherwise flip meaning in RTL). */
+  ltr?: boolean
 }) {
   return (
-    <span className="seg">
+    <span className="seg" style={ltr ? { direction: 'ltr' } : undefined}>
       {options.map((o) => (
         <button
           key={o.value}

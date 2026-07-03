@@ -51,6 +51,7 @@ export function ExportProvider({
     const node = captureRef.current
     if (!node || busy) return
     setBusy(true)
+    setToast(t('export.rendering')) // persistent loading toast — iOS can lag before the save/share panel
     try {
       blurActiveEditable()
       const { blob } = await exportPng(node, { scale: getScale() })
@@ -60,6 +61,8 @@ export function ExportProvider({
           downloadImage(blob)
           flash(t('export.downloaded'))
           playDing()
+        } else {
+          setToast('') // native share sheet is now up
         }
       } else {
         downloadImage(blob)
@@ -79,6 +82,7 @@ export function ExportProvider({
     const node = captureRef.current
     if (!node || busy) return
     setBusy(true)
+    setToast(t('export.rendering')) // persistent loading toast until the copy resolves
     const scale = getScale()
     copyImage(async () => {
       blurActiveEditable()

@@ -24,6 +24,7 @@ import { useAppStore } from '../store/useStore'
 import type { Lang } from '../store/useStore'
 import { Seg } from './ui'
 import { QualityContent } from './QualityButton'
+import { useResetStyles } from '../hooks/useResetStyles'
 import { useExport } from './export/ExportProvider'
 import { TextSection } from './sections/TextSection'
 import { LayoutSection } from './sections/LayoutSection'
@@ -117,9 +118,17 @@ function GroupPopover({
 export function MobileControls() {
   const t = useT()
   const { busy, ios, onCopy, onSave } = useExport()
-  const resetStyles = useAppStore((s) => s.resetStyles)
+  const resetStyles = useResetStyles()
+  const dotsRef = useRef<HTMLButtonElement>(null)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [menuBottom, setMenuBottom] = useState(80)
   const [active, setActive] = useState<{ key: string; rect: DOMRect } | null>(null)
+
+  function openMenu() {
+    const r = dotsRef.current?.getBoundingClientRect()
+    if (r) setMenuBottom(window.innerHeight - r.top + 10)
+    setMenuOpen(true)
+  }
 
   const items: MenuItem[] = [
     { key: 'text', icon: <TextAa size={SZ} />, label: t('section.text'), content: <TextSection /> },
@@ -149,7 +158,7 @@ export function MobileControls() {
       {menuOpen && (
         <>
           <div className="mmenu-backdrop" onClick={closeAll} />
-          <nav className="mmenu" aria-label={t('dock.label')}>
+          <nav className="mmenu" style={{ bottom: menuBottom }} aria-label={t('dock.label')}>
             <div className="mmenu-head">
               <button type="button" className="mmenu-close" onClick={closeAll} aria-label={t('export.close')}>
                 <X size={15} weight="bold" />
@@ -186,7 +195,16 @@ export function MobileControls() {
         </GroupPopover>
       )}
 
-      <div className="mfab-row">
+      <div className="mfab-stack">
+        <button
+          ref={dotsRef}
+          type="button"
+          className={menuOpen ? 'mfab-btn mfab-btn--menu active' : 'mfab-btn mfab-btn--menu'}
+          onClick={() => (menuOpen ? closeAll() : openMenu())}
+          aria-label={t('dock.label')}
+        >
+          <DotsThreeVertical size={28} weight="bold" />
+        </button>
         <button
           type="button"
           className="mfab-btn mfab-btn--primary"
@@ -195,14 +213,6 @@ export function MobileControls() {
           aria-label={t('export.copy')}
         >
           <Copy size={26} weight="bold" />
-        </button>
-        <button
-          type="button"
-          className={menuOpen ? 'mfab-btn mfab-btn--menu active' : 'mfab-btn mfab-btn--menu'}
-          onClick={() => (menuOpen ? closeAll() : setMenuOpen(true))}
-          aria-label={t('dock.label')}
-        >
-          <DotsThreeVertical size={28} weight="bold" />
         </button>
       </div>
     </>

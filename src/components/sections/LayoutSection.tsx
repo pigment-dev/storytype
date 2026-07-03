@@ -23,6 +23,7 @@ export function LayoutSection() {
     <>
       <Row label={t('layout.align')}>
         <Seg<BlockStyle['textAlign']>
+          ltr
           options={[
             { value: 'start', label: <TextAlignLeft size={SZ} />, title: t('align.start') },
             { value: 'center', label: <TextAlignCenter size={SZ} />, title: t('align.center') },
@@ -35,6 +36,7 @@ export function LayoutSection() {
       </Row>
       <Row label={t('layout.direction')}>
         <Seg<BlockStyle['direction']>
+          ltr
           options={[
             { value: 'auto', label: <ArrowsHorizontal size={SZ} />, title: t('dir.auto') },
             { value: 'rtl', label: <ArrowLeft size={SZ} />, title: t('dir.rtl') },

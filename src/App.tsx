@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react'
 import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import type { InitialConfigType } from '@lexical/react/LexicalComposer'
-import { ArrowCounterClockwise } from '@phosphor-icons/react'
 import { theme } from './editor/theme'
 import { Stage } from './components/Stage'
 import { Controls } from './components/Controls'
 import { QualityButton } from './components/QualityButton'
 import { AboutButton } from './components/AboutButton'
+import { ResetButton } from './components/ResetButton'
 import { Logo } from './components/Logo'
 import { Seg } from './components/ui'
 import { ExportProvider } from './components/export/ExportProvider'
@@ -32,7 +32,6 @@ export default function App() {
   const t = useT()
   const lang = useAppStore((s) => s.lang)
   const setLang = useAppStore((s) => s.setLang)
-  const resetStyles = useAppStore((s) => s.resetStyles)
   const setFonts = useAppStore((s) => s.setFonts)
   const setGoogleFonts = useAppStore((s) => s.setGoogleFonts)
   const setFontsReady = useAppStore((s) => s.setFontsReady)
@@ -124,15 +123,7 @@ export default function App() {
                   {langSeg}
                   <span className="spacer" />
                   <QualityButton />
-                  <button
-                    type="button"
-                    className="icon-btn"
-                    onClick={resetStyles}
-                    title={t('reset')}
-                    aria-label={t('reset')}
-                  >
-                    <ArrowCounterClockwise size={18} />
-                  </button>
+                  <ResetButton />
                 </div>
                 <div className="panel-scroll">
                   <Controls />
