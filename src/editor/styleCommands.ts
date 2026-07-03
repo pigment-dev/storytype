@@ -17,6 +17,14 @@ import type { SelectionStyle } from '../store/useStore'
  * "select all" highlight and doesn't have to select anything first.
  */
 export function applyStyle(editor: LexicalEditor, styles: Record<string, string | null>): void {
+  // Is the user actually editing the text right now (caret in the field), or just
+  // adjusting a control? We only keep a DOM selection in the first case. On iOS,
+  // setting a selection range inside a contentEditable focuses it and pops the
+  // keyboard — so when the user is NOT editing we clear the selection entirely
+  // after styling, which keeps the keyboard down for every control interaction.
+  const rootEl = editor.getRootElement()
+  const editing =
+    !!rootEl && (rootEl === document.activeElement || rootEl.contains(document.activeElement))
   editor.update(
     () => {
       const sel = $getSelection()
@@ -25,20 +33,20 @@ export function applyStyle(editor: LexicalEditor, styles: Record<string, string 
         return
       }
       const root = $getRoot()
-      const hasText = root.getTextContent().length > 0
       const saved = $isRangeSelection(sel) ? sel.clone() : null
       const all = root.select(0, root.getChildrenSize())
       $patchStyleText(all, styles)
-      // Restore the caret so no visible selection remains (only when there's text;
-      // for an empty editor we keep the selection so the pending style applies to typing).
-      if (saved && hasText) $setSelection(saved)
+      if (editing && saved) {
+        // Actively typing: restore the caret so nothing visibly selects and the
+        // keyboard the user opened stays as they left it.
+        $setSelection(saved)
+      } else {
+        // Styling from a control: no DOM selection → iOS keyboard never opens.
+        $setSelection(null)
+      }
     },
-    // Sliders (font size/weight, stroke, shadow, ...) call applyStyle() while the
-    // contentEditable has been deliberately blurred for the duration of a drag
-    // (see blurActiveEditable() in ../utils/dom.ts). Lexical's DOM-selection
-    // reconciliation would otherwise call rootElement.focus() here because the
-    // active element isn't the editor root, silently reopening the mobile
-    // keyboard mid-drag. This tag suppresses that refocus at the source.
+    // Belt-and-braces with the above: suppress Lexical's own rootElement.focus()
+    // during DOM-selection reconciliation for this update.
     { tag: SKIP_SELECTION_FOCUS_TAG }
   )
 }

@@ -1,22 +1,16 @@
-import { createContext, useContext, useMemo, useRef, useState } from 'react'
+import { createContext, useContext, useMemo, useState } from 'react'
 import type { ReactNode, RefObject } from 'react'
 import { createPortal } from 'react-dom'
-import { X } from '@phosphor-icons/react'
 import { canvasToBlob, exportPng, renderToCanvas, trimTransparent } from '../../services/export'
 import { copyImage, downloadImage, isIOS, shareImage } from '../../services/share'
 import { useT } from '../../i18n'
 import { useAppStore } from '../../store/useStore'
 import { blurActiveEditable } from '../../utils/dom'
+import { playDing } from '../../utils/sound'
 
 // Read the export scale lazily at call time so it always reflects the latest store value.
 function getScale(): number {
   return useAppStore.getState().export.scale
-}
-
-interface Preview {
-  url: string
-  width: number
-  height: number
 }
 
 interface ExportApi {
@@ -34,9 +28,8 @@ export function useExport(): ExportApi {
   return ctx
 }
 
-/** Owns export state (busy/toast/preview) and the shared overlay, so Copy/Save
- * can be triggered from anywhere (desktop bar, mobile fabs, dock) and share one
- * toast + one preview dialog. */
+/** Owns export state (busy + a single small toast) so Copy/Save can be triggered
+ * from anywhere and share one toast. No preview modal — the toast is enough. */
 export function ExportProvider({
   captureRef,
   children
@@ -47,23 +40,11 @@ export function ExportProvider({
   const t = useT()
   const [busy, setBusy] = useState(false)
   const [toast, setToast] = useState('')
-  const [preview, setPreview] = useState<Preview | null>(null)
-  const lastUrl = useRef<string | null>(null)
   const ios = isIOS()
 
   function flash(msg: string) {
     setToast(msg)
-    window.setTimeout(() => setToast(''), 2600)
-  }
-  function showPreview(url: string, width: number, height: number) {
-    if (lastUrl.current) URL.revokeObjectURL(lastUrl.current)
-    lastUrl.current = url
-    setPreview({ url, width, height })
-  }
-  function dismissPreview() {
-    if (lastUrl.current) URL.revokeObjectURL(lastUrl.current)
-    lastUrl.current = null
-    setPreview(null)
+    window.setTimeout(() => setToast(''), 2400)
   }
 
   async function onSave() {
@@ -72,17 +53,18 @@ export function ExportProvider({
     setBusy(true)
     try {
       blurActiveEditable()
-      const { blob, url, width, height } = await exportPng(node, { scale: getScale() })
-      showPreview(url, width, height)
+      const { blob } = await exportPng(node, { scale: getScale() })
       if (ios) {
         const shared = await shareImage(blob)
         if (!shared) {
           downloadImage(blob)
           flash(t('export.downloaded'))
+          playDing()
         }
       } else {
         downloadImage(blob)
         flash(t('export.downloaded'))
+        playDing()
       }
     } catch (err) {
       console.error(err)
@@ -102,11 +84,12 @@ export function ExportProvider({
       blurActiveEditable()
       let canvas = await renderToCanvas(node, scale)
       canvas = trimTransparent(canvas, Math.round(scale))
-      const blob = await canvasToBlob(canvas)
-      showPreview(URL.createObjectURL(blob), canvas.width, canvas.height)
-      return blob
+      return canvasToBlob(canvas)
     })
-      .then((ok) => flash(ok ? t('export.copied') : t('export.copyFail')))
+      .then((ok) => {
+        flash(ok ? t('export.copied') : t('export.copyFail'))
+        if (ok) playDing()
+      })
       .finally(() => setBusy(false))
   }
 
@@ -115,31 +98,10 @@ export function ExportProvider({
   return (
     <ExportCtx.Provider value={api}>
       {children}
-      {(toast || preview) &&
+      {toast &&
         createPortal(
           <div className="export-overlay">
-            {toast && <div className="toast">{toast}</div>}
-            {preview && (
-              <div className="preview-backdrop" onClick={dismissPreview}>
-                <div className="preview-card" onClick={(e) => e.stopPropagation()}>
-                  <button
-                    type="button"
-                    className="preview-close"
-                    onClick={dismissPreview}
-                    aria-label={t('export.close')}
-                  >
-                    <X size={16} weight="bold" />
-                  </button>
-                  <div className="preview-canvas">
-                    <img src={preview.url} alt="preview" />
-                  </div>
-                  <div className="preview-meta">
-                    {preview.width}×{preview.height}px · {t('export.meta')}
-                  </div>
-                  {ios && <div className="hint">{t('export.iosHint')}</div>}
-                </div>
-              </div>
-            )}
+            <div className="toast">{toast}</div>
           </div>,
           document.body
         )}

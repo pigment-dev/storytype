@@ -3,7 +3,6 @@ import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
-import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { useAppStore } from '../store/useStore'
 import { hexToRgba } from '../utils/color'
@@ -88,7 +87,6 @@ export function Stage({ captureRef }: { captureRef: RefObject<HTMLDivElement | n
         </div>
       </div>
       <HistoryPlugin />
-      <AutoFocusPlugin />
       <SelectionStatePlugin />
       <VerticalSlider
         value={selection.fontSize}

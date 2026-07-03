@@ -1101,17 +1101,7 @@ input {
   border: 1px solid var(--line);
 }
 
-/* Floating export cluster over the canvas (mobile) */
-.canvas-fabs {
-  position: absolute;
-  bottom: calc(96px + env(safe-area-inset-bottom));
-  inset-inline-start: var(--s4);
-  z-index: 20;
-  display: flex;
-  gap: var(--s3);
-}
-
-/* Shared toast + preview overlay */
+/* Shared toast overlay (bottom-center pill) */
 .export-overlay {
   position: fixed;
   inset: 0;
@@ -1132,64 +1122,6 @@ input {
   font-size: var(--fz-sm);
   text-align: center;
   pointer-events: auto;
-}
-.preview-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: grid;
-  place-items: center;
-  padding: var(--s4);
-  pointer-events: auto;
-}
-.preview-card {
-  position: relative;
-  width: min(420px, 100%);
-  display: flex;
-  flex-direction: column;
-  gap: var(--s2);
-  border: 1px solid var(--line);
-  border-radius: var(--r-xl);
-  padding: var(--s3);
-  background: var(--panel);
-  box-shadow: var(--shadow-pop);
-}
-.preview-close {
-  position: absolute;
-  top: var(--s2);
-  inset-inline-end: var(--s2);
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid var(--line);
-  background: var(--bg-2);
-  color: var(--text);
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  z-index: 1;
-}
-.preview-canvas {
-  border-radius: var(--r-md);
-  padding: var(--s3);
-  background-color: #0b0b0f;
-  background-image: linear-gradient(45deg, #20202a 25%, transparent 25%),
-    linear-gradient(-45deg, #20202a 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, #20202a 75%),
-    linear-gradient(-45deg, transparent 75%, #20202a 75%);
-  background-size: 18px 18px;
-  background-position: 0 0, 0 9px, 9px -9px, -9px 0;
-  display: grid;
-  place-items: center;
-}
-.preview-canvas img {
-  max-width: 100%;
-  max-height: 220px;
-}
-.preview-meta {
-  font-size: var(--fz-xs);
-  color: var(--muted);
-  text-align: center;
 }
 
 /* ============================================================
@@ -1247,51 +1179,8 @@ input {
 }
 
 /* ============================================================
-   MOBILE DOCK + SHELL
+   MOBILE SHELL — full-height canvas + floating controls + sheet
    ============================================================ */
-.dock {
-  display: flex;
-  gap: var(--s2);
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x proximity;
-  padding: var(--s2) var(--s3);
-  scrollbar-width: none;
-}
-.dock::-webkit-scrollbar {
-  display: none;
-}
-.dock-btn {
-  flex: 0 0 auto;
-  scroll-snap-align: center;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--s1);
-  min-width: 44px;
-  height: 44px;
-  padding: 0 var(--s3);
-  justify-content: center;
-  border: 1px solid var(--line);
-  border-radius: var(--r-pill);
-  background: var(--panel-2);
-  color: var(--text);
-  cursor: pointer;
-  transition: background 0.12s var(--ease), border-color 0.12s var(--ease);
-}
-.dock-btn:hover {
-  border-color: var(--line-2);
-}
-.dock-btn.active {
-  background: var(--accent-2);
-  border-color: var(--accent-2);
-  color: #fff;
-}
-.dock-btn-label {
-  font-size: var(--fz-xs);
-  font-weight: 600;
-  white-space: nowrap;
-}
-
 .workspace-mobile {
   position: relative;
   display: block;
@@ -1300,19 +1189,127 @@ input {
   position: absolute;
   inset: 0;
 }
-.mobile-dock-wrap {
+
+/* Stacked floating buttons (bottom, leading edge): Settings, Copy, Save */
+.mfab-stack {
   position: absolute;
-  inset-inline: 0;
-  bottom: 0;
-  z-index: 30;
-  padding-top: var(--s6);
-  padding-bottom: env(safe-area-inset-bottom);
-  background: linear-gradient(180deg, transparent, var(--bg) 45%);
+  inset-inline-start: var(--s4);
+  bottom: calc(env(safe-area-inset-bottom) + var(--s4));
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s3);
 }
-/* On short viewports the centered triangle slider could reach the dock; cap it. */
+.mfab {
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s1);
+}
+.mfab:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.mfab-label {
+  font-size: var(--fz-2xs);
+  font-weight: 600;
+  color: var(--muted);
+}
+.mfab-circle {
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  transition: transform 0.12s var(--ease), filter 0.12s var(--ease);
+}
+.mfab:active .mfab-circle {
+  transform: scale(0.93);
+}
+.mfab--settings .mfab-circle,
+.mfab--soft .mfab-circle {
+  width: 52px;
+  height: 52px;
+  background: var(--elevated);
+  border: 1px solid var(--line);
+  color: var(--text);
+  box-shadow: var(--shadow-2);
+}
+.mfab--primary .mfab-circle {
+  width: 62px;
+  height: 62px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  box-shadow: 0 14px 30px -8px rgba(95, 109, 255, 0.6);
+}
+
+/* Settings bottom sheet */
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+}
+.sheet {
+  width: 100%;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-2);
+  border-top: 1px solid var(--line);
+  border-top-left-radius: var(--r-xl);
+  border-top-right-radius: var(--r-xl);
+  box-shadow: 0 -24px 60px -20px #000;
+  animation: sheet-up 0.24s var(--ease);
+}
+@keyframes sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+.sheet-head {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--s4) var(--s4) var(--s3);
+  border-bottom: 1px solid var(--line);
+}
+.sheet-grabber {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 4px;
+  border-radius: var(--r-pill);
+  background: var(--line-2);
+}
+.sheet-title {
+  font-size: var(--fz-md);
+  font-weight: 700;
+}
+.sheet-body {
+  overflow-y: auto;
+  padding: var(--s3);
+  padding-bottom: calc(env(safe-area-inset-bottom) + var(--s4));
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+/* Give the vertical font-size slider room on mobile (no dock to clear now). */
 @media (max-width: 900px) {
   .vslider {
-    height: min(48vh, 380px, max(150px, calc(100vh - 300px)));
+    height: min(52vh, 420px);
   }
 }
 

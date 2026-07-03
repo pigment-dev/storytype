@@ -10,8 +10,8 @@ import { AboutButton } from './components/AboutButton'
 import { Logo } from './components/Logo'
 import { Seg } from './components/ui'
 import { ExportProvider } from './components/export/ExportProvider'
-import { ExportBar, ExportFabs } from './components/export/ExportActions'
-import { SettingsDock } from './components/SettingsDock'
+import { ExportBar } from './components/export/ExportActions'
+import { MobileControls } from './components/MobileControls'
 import { UpdatePrompt } from './components/UpdatePrompt'
 import { useAppStore } from './store/useStore'
 import type { Lang } from './store/useStore'
@@ -43,6 +43,22 @@ export default function App() {
     document.documentElement.lang = lang
     document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr'
   }, [lang])
+
+  // Any pointer-down outside the text field drops the editor's focus, so tapping
+  // a control or dragging a slider never (re)opens the mobile keyboard. The
+  // keyboard only appears when the user taps directly into the text.
+  useEffect(() => {
+    const onDown = (e: PointerEvent) => {
+      const target = e.target as Element | null
+      if (target && target.closest('.editable')) return
+      const active = document.activeElement as HTMLElement | null
+      if (active && (active.isContentEditable || active.classList.contains('editable'))) {
+        active.blur()
+      }
+    }
+    document.addEventListener('pointerdown', onDown, true)
+    return () => document.removeEventListener('pointerdown', onDown, true)
+  }, [])
 
   useEffect(() => {
     let alive = true
@@ -101,12 +117,7 @@ export default function App() {
           <ExportProvider captureRef={captureRef}>
             <Stage captureRef={captureRef} />
             {isMobile ? (
-              <>
-                <ExportFabs />
-                <div className="mobile-dock-wrap">
-                  <SettingsDock />
-                </div>
-              </>
+              <MobileControls />
             ) : (
               <aside className="panel">
                 <div className="panel-toolbar">
